@@ -3,54 +3,11 @@ tables."""
 
 import xlrd
 import pandas as pd
+import json
 import os
 
-# this data comes from the bottom of the sheets.
-LOOKUP = {
-    'Congleton': 'Cheshire East UA',
-    'Crewe & Nantwich': 'Cheshire East UA',
-    'Macclesfield': 'Cheshire East UA',
-    'Chester': 'Cheshire West UA',
-    'Ellesmere Port': 'Cheshire West UA',
-    'Neston and Vale Royal': 'Cheshire West UA',
-    'Bedford': 'Bedford UA',
-    'Mid Bedfordshire': 'Central Bedfordshire UA',
-    'South Bedfordshire': 'Central Bedfordshire UA',
-
-    'Caradon': 'Cornwall UA',
-    'Carrick': 'Cornwall UA',
-    'Kerrier': 'Cornwall UA',
-    'North Cornwall': 'Cornwall UA',
-    'Penwith': 'Cornwall UA',
-    'Restormel': 'Cornwall UA',
-    'Isles of Scilly ': 'Cornwall UA',
-
-    'Chester-le-Street': 'Durham UA',
-    'Derwentside': 'Durham UA',
-    'Durham': 'Durham UA',
-    'Easington': 'Durham UA',
-    'Sedgefield': 'Durham UA',
-    'Teesdale': 'Durham UA',
-    'Wear Valley': 'Durham UA',
-
-    'Alnwick': 'Northumberland UA',
-    'Berwick-upon-Tweed': 'Northumberland UA',
-    'Blyth Valley': 'Northumberland UA',
-    'Castle Morpeth': 'Northumberland UA',
-    'Tynedale': 'Northumberland UA',
-    'Wansbeck': 'Northumberland UA',
-
-    'Bridgnorth': 'Shropshire UA',
-    'North Shropshire': 'Shropshire UA',
-    'Oswestry': 'Shropshire UA',
-    'Shrewsbury and Atcham': 'Shropshire UA',
-    'South Shropshire': 'Shropshire UA',
-
-    'Kennet': 'Wiltshire UA',
-    'North Wiltshire': 'Wiltshire UA',
-    'Salisbury': 'Wiltshire UA',
-    'West Wiltshire': 'Wiltshire UA',
-}
+with open('./lookup.json', 'r') as f:
+    LOOKUP = json.load(f)
 
 def getbook(bookname):
     """Get the book object.
