@@ -69,9 +69,44 @@ def getdata(bookname, sheet, header):
     )
 
 
+def cleanonscodes(data):
+    """There are ONS codes that need to be replaced due to them changing over
+    time. We want to use the prior version of these codes, as they're the ones
+    that seem to be used in the LT sheet.
+
+    :data: dataframe with the previous ONS codes
+    :returns: dataframe with the new ONS codes
+
+    """
+    # there are two codes that need to be changed. From a spreadsheet that I
+    # found here:
+    # https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/migrationwithintheuk/datasets/userinformationenglandandwaleslocalauthoritytoregionlookup/june2012/laregionlookup2012_tcm77-368555.xls
+    # called laregionlookup2012_tcm77-368555.xls
+    recodes = [
+        {
+            # st albans
+            'from': 'E07000240',
+            'to': 'E07000100'
+        },
+        {
+            # Welwyn Hatfield
+            'from': 'E07000241',
+            'to': 'E07000104'
+        },
+    ]
+
+    # now do the recoding on a copy of the dataframe
+    df = data.copy()
+    for r in recodes:
+        df.loc[df.ONScode == r['from'], 'ONScode'] = r['to']
+
+    return df
+
+
 def processsheet(bookname, sheet):
     header = getheader(sheet)
     data = getdata(bookname, sheet, header)
+    cleanonscodes(data)
     return data
 
 
