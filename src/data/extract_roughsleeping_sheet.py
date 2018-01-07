@@ -2,6 +2,8 @@
 
 import pandas as pd
 import xlrd
+import os
+
 
 def getbook(bookname):
     """Get the book object.
@@ -47,11 +49,23 @@ def getdata(bookname, sheet, header):
         skiprows=15,
         header=None,
     )
-    df.columns = header
+    # make columns better to join on
+    df.columns = [
+        str(i).replace(' ', '').replace('/', '')
+        for i in header
+    ]
+
     return (
         df
-        .pipe(lambda x: x.loc[~x['2016.0'].isnull()])
-        .drop([''], axis=1)
+        .drop(['', 'Missingdatacomment'], axis=1, errors='ignore')
+        .dropna()
+        .pipe(lambda x:
+              x.assign(LocalAuthority=x.LocalAuthority.str.replace('2', ''))
+              )
+        .rename(columns={
+            'LocalAuthority': 'LocalAuthorityName',
+            'ONSCode': 'ONScode'
+        })
     )
 
 
@@ -60,7 +74,18 @@ def processsheet(bookname, sheet):
     data = getdata(bookname, sheet, header)
     return data
 
+
 if __name__ == "__main__":
     bookname = './data/downloaded/Rough_Sleeping_Autumn_2016_Final_Tables.xlsx'
     book = getbook(bookname)
     sheets = getsheets(book)
+    for sheet in sheets:
+        processed = processsheet(bookname, sheet)
+        processed.to_csv(
+            os.path.join(
+                'data/extracted/',
+                'roughsleeping_' + sheet.name + '.csv'
+            ),
+            index=False,
+            encoding='utf-8'
+        )

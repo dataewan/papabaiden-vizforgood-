@@ -9,6 +9,7 @@ import os
 with open('./lookup.json', 'r') as f:
     LOOKUP = json.load(f)
 
+
 def getbook(bookname):
     """Get the book object.
 
@@ -31,7 +32,6 @@ def getsheets(book):
         # Don't include the notes sheet, as it is a different format
         if i.name != 'Notes'
     ]
-
 
 
 def getheader(sheet):
@@ -87,9 +87,15 @@ def parserow(row, rowindex, header):
     ]
 
     parsed = dict(zip(nonempty_header, nonempty_values))
-    if 'Local Authority Name' in parsed:
-        if parsed['Local Authority Name'] in LOOKUP:
-            parsed['Local Authority Name'] = LOOKUP[parsed['Local Authority Name']]
+    LOCA = 'Local Authority Name'
+    if LOCA in parsed:
+        if parsed[LOCA] in LOOKUP:
+            parsed[LOCA] = LOOKUP[parsed[LOCA]]
+            # reset the ONS codes to null, we're removing these from the
+            # dataset
+            onscodes = [i for i in parsed.keys() if 'ONS' in str(i)]
+            for field in onscodes:
+                parsed[field] = None
 
     return parsed
 
@@ -104,7 +110,7 @@ def getdata(sheet, header):
     rows = []
     for i, row in enumerate(sheet.get_rows()):
         parsed = parserow(row, i, header)
-        if parsed != False:
+        if parsed is not False:
             rows.append(parsed)
 
     return pd.DataFrame(rows)
@@ -125,14 +131,30 @@ def sortoutcolumns(df, dimensions):
 
     columnstodrop = ['', 'CLGcode', 'NewONScode', 'ONScode']
 
-    return (
+    df_ = (
         df
-        .pipe(lambda x: x.assign(LocalAuthorityName = x.LocalAuthorityName.str.replace('*', '')))
-        .pipe(lambda x: x.assign(LocalAuthorityName = x.LocalAuthorityName.str.replace('UA', '')))
-        .pipe(lambda x: x.assign(LocalAuthorityName = x.LocalAuthorityName.str.strip()))
-        .drop(columnstodrop, axis=1)
+        .pipe(lambda x: x.assign(LocalAuthorityName=x.LocalAuthorityName.str.replace('*', '')))
+        .pipe(lambda x: x.assign(LocalAuthorityName=x.LocalAuthorityName.str.replace('UA', '')))
+        .pipe(lambda x: x.assign(LocalAuthorityName=x.LocalAuthorityName.str.strip()))
     )
-   
+
+    ons_lookup = (
+        df_
+        [['LocalAuthorityName', 'NewONScode']]
+        .pipe(lambda x: x.loc[~x.NewONScode.isnull()])
+        .drop_duplicates()
+        .rename(columns={'NewONScode': 'ONScode'})
+    )
+
+    return (
+        df_
+        .drop(columnstodrop, axis=1)
+        .merge(ons_lookup,
+               left_on='LocalAuthorityName',
+               right_on='LocalAuthorityName',
+               validate='m:1')
+    )
+
 
 def aggregate_localauthorities(df, dimensions):
     """There will be multiple rows with the same heading, and some of those
@@ -161,7 +183,8 @@ def cleandata(df):
     1. There are local authorities that have been shifting around, aggregate up
         these rows
     1. There is some nasty formatting in the columns, which I'd like to remove.
-    1. The column names are difficult to manipluate because they are inconsistently named.
+    1. The column names are difficult to manipluate because they are
+        inconsistently named.
     1. It is in wide format, which is harder to manipulate.
 
     Fix these and return
@@ -170,7 +193,7 @@ def cleandata(df):
     :returns: cleaned pandas dataframe
 
     """
-    dimensions = ['LocalAuthorityName']
+    dimensions = ['LocalAuthorityName', 'ONScode']
 
     return (
         sortoutcolumns(df, dimensions=dimensions)
@@ -191,6 +214,7 @@ def processsheet(sheet):
 
     return cleaneddata
 
+
 if __name__ == "__main__":
     book = getbook('./data/downloaded/LT_615.xlsx')
     sheets = getsheets(book)
@@ -199,7 +223,7 @@ if __name__ == "__main__":
         processed.to_csv(
             os.path.join(
                 'data/extracted/',
-                sheet.name + '.csv'
+                'LT_' + sheet.name + '.csv'
             ),
             index=False,
             encoding='utf-8'
