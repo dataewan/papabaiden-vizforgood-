@@ -37,7 +37,34 @@ def check(lt, rs):
 
     """
     # check the ONS codes from LT are also present in RS
-    pass
+    missingfromlt = lt.loc[~lt.ONScode.isin(rs.ONScode)]
+    if len(missingfromlt) > 0:
+        print('Codes that are in LT but not in RS')
+        print(missingfromlt)
+
+    # check the ONS codes from LT are also present in RS
+    missingfromrs = rs.loc[~rs.ONScode.isin(lt.ONScode)]
+    if len(missingfromrs) > 0:
+        print('Codes that are in RS but not in LT')
+        print(missingfromrs)
+
+    # see that there is consistency between the naming
+    columns = ['LocalAuthorityName', 'ONScode']
+    inconsistent = (
+        lt[columns]
+        .drop_duplicates()
+        .merge(
+            rs[columns].drop_duplicates(),
+            left_on='ONScode',
+            right_on='ONScode'
+        )
+        .pipe(lambda x:
+              x.query('LocalAuthorityName_x != LocalAuthorityName_y')
+              )
+    )
+    if(len(inconsistent) > 0):
+        print('Inconsistent names')
+        print(inconsistent)
 
 
 if __name__ == "__main__":

@@ -106,7 +106,7 @@ def cleanonscodes(data):
 def processsheet(bookname, sheet):
     header = getheader(sheet)
     data = getdata(bookname, sheet, header)
-    cleanonscodes(data)
+    data = cleanonscodes(data)
     return data
 
 
