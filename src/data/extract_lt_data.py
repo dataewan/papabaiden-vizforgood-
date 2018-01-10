@@ -177,6 +177,17 @@ def aggregate_localauthorities(df, dimensions):
     )
 
 
+def fix_marker_column(df):
+    """There is a value that sneaks in for 20163, replace this with 2016.
+
+    :df: messy dataframe
+    :returns: tidy dataframe
+
+    """
+    df.loc[df.year == '20163', 'year'] = 2016
+    return df
+
+
 def cleandata(df):
     """Tidy up the data, as there is a bit of a mess in it.
 
@@ -204,6 +215,7 @@ def cleandata(df):
             var_name='year',
             value_name='number'
         )
+        .pipe(fix_marker_column)
     )
 
 

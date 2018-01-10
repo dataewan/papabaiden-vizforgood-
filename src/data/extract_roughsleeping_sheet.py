@@ -43,10 +43,16 @@ def getdata(bookname, sheet, header):
     :header: list containing the header
     :returns: pandas dataframe containing the data
     """
+    skiprows = {
+        'Table 1': 15,
+        'Table 2': 12,
+    }
+
     df = pd.read_excel(
         bookname,
         sheet.name,
-        skiprows=15,
+        # different number of header rows in each of the spreadsheets.
+        skiprows=skiprows[sheet.name],
         header=None,
     )
     # make columns better to join on
@@ -116,6 +122,7 @@ if __name__ == "__main__":
     sheets = getsheets(book)
     for sheet in sheets:
         processed = processsheet(bookname, sheet)
+        print(processed.head())
         processed.to_csv(
             os.path.join(
                 'data/extracted/',
