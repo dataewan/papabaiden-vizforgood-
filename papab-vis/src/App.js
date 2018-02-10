@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as topojson from 'topojson-client';
 import './App.css';
 
-import { filterdata } from './dataoperations'
+import { filterdata, makecodelookup } from './dataoperations'
 import RSMap from './RSMap';
 import LondonMap from './LondonMap';
 
@@ -18,6 +18,7 @@ class App extends Component {
     }
 
     const { filteredmap, filtereddata } = filterdata(mapdata, data)
+    this.codelookup = makecodelookup(filteredmap)
     this.geofeatures = topojson.feature(
       filteredmap, 
       filteredmap.objects.tracts).features
@@ -41,12 +42,14 @@ class App extends Component {
               data={this.filtereddata}
               selected={this.state.selectedRegion}
               changeregion={e => this.changeregion_frommap(e)}
+              codelookup={this.codelookup}
             />
             <LondonMap
               geofeatures={this.geofeatures}
               data={this.filtereddata}
               selected={this.state.selectedRegion}
               changeregion={e => this.changeregion_frommap(e)}
+              codelookup={this.codelookup}
             />
           </div>
           <div className='demographics'>

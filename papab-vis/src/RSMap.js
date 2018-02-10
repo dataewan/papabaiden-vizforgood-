@@ -25,10 +25,10 @@ class RSMap extends React.Component {
           className='region'
           key={`path${i}`}
           d={pathGenerator(d)}
-          fill={d.properties.lau118nm === this.props.selected ? 'red' : 'salmon'}
+          fill={d.properties.lau118cd === this.props.selected ? 'red' : 'salmon'}
           strokeWidth='0.1px'
           stroke='white'
-          onClick={x => this.props.changeregion(d.properties.lau118nm)}
+          onClick={x => this.props.changeregion(d.properties.lau118cd)}
         />
       )
     }
@@ -36,7 +36,7 @@ class RSMap extends React.Component {
 
     return (
       <div>
-        <h3>{this.props.selected ? this.props.selected : 'England'}</h3>
+        <h3>{this.props.selected ? this.props.codelookup[this.props.selected] : 'England'}</h3>
         <svg
           width={width}
           height={height}

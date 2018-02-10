@@ -28,10 +28,10 @@ class LondonMap extends React.Component {
           className='region'
           key={`path${i}`}
           d={pathGenerator(d)}
-          fill={d.properties.lau118nm === this.props.selected ? 'red' : 'salmon'}
+          fill={d.properties.lau118cd === this.props.selected ? 'red' : 'salmon'}
           strokeWidth='0.5px'
           stroke='white'
-          onClick={x => this.props.changeregion(d.properties.lau118nm)}
+          onClick={x => this.props.changeregion(d.properties.lau118cd)}
         />
       )
     }

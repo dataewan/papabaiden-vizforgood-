@@ -20,6 +20,15 @@ const filterdata = (mapdata, data) => {
   }
 }
 
+
+const makecodelookup = (mapdata) => {
+  window.mapdata = mapdata;
+  const codes = _.map(mapdata.objects.tracts.geometries, d => d.properties.lau118cd)
+  const names = _.map(mapdata.objects.tracts.geometries, d => d.properties.lau118nm)
+  return _.zipObject(codes, names)
+}
+
 export {
-  filterdata
+  filterdata,
+  makecodelookup
 }
