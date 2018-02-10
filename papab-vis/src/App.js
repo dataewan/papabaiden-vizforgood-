@@ -13,12 +13,22 @@ import data from './data.json';
 class App extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      selectedRegion: null
+    }
+
     const { filteredmap, filtereddata } = filterdata(mapdata, data)
     this.geofeatures = topojson.feature(
       filteredmap, 
       filteredmap.objects.tracts).features
     this.filtereddata = filtereddata;
-    window.filtereddata = filtereddata
+  }
+
+  changeregion_frommap(e){
+    /* change the highlighted region */
+    this.setState({
+      selectedRegion: e
+    })
   }
 
   render() {
@@ -29,10 +39,14 @@ class App extends Component {
             <RSMap 
               geofeatures={this.geofeatures}
               data={this.filtereddata}
+              selected={this.state.selectedRegion}
+              changeregion={e => this.changeregion_frommap(e)}
             />
             <LondonMap
               geofeatures={this.geofeatures}
               data={this.filtereddata}
+              selected={this.state.selectedRegion}
+              changeregion={e => this.changeregion_frommap(e)}
             />
           </div>
           <div className='demographics'>

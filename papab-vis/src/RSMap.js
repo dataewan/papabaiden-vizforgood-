@@ -18,9 +18,6 @@ class RSMap extends React.Component {
 
     const pathGenerator = geoPath().projection(proj);
 
-    window.geofeatures = geofeatures
-    window.data = data
-
     const regions = geofeatures.map((d, i) => {
       const indata = codes.includes(d.properties.lau118cd)
       return(
@@ -28,10 +25,10 @@ class RSMap extends React.Component {
           className='region'
           key={`path${i}`}
           d={pathGenerator(d)}
-          fill={'salmon'}
+          fill={d.properties.lau118nm === this.props.selected ? 'red' : 'salmon'}
           strokeWidth='0.1px'
           stroke='white'
-          onClick={x => console.log(d.properties.lau118nm)}
+          onClick={x => this.props.changeregion(d.properties.lau118nm)}
         />
       )
     }
@@ -39,7 +36,7 @@ class RSMap extends React.Component {
 
     return (
       <div>
-        <h3>England</h3>
+        <h3>{this.props.selected ? this.props.selected : 'England'}</h3>
         <svg
           width={width}
           height={height}
