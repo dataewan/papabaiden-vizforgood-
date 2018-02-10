@@ -18,18 +18,30 @@ class App extends Component {
       filteredmap, 
       filteredmap.objects.tracts).features
     this.filtereddata = filtereddata;
+    window.filtereddata = filtereddata
   }
+
   render() {
     return (
       <div className="App">
-        <RSMap 
-          geofeatures={this.geofeatures}
-          data={this.filtereddata}
-        />
-        <LondonMap
-          geofeatures={this.geofeatures}
-          data={this.filtereddata}
-        />
+        <div className='containerrow'>
+          <div className='map'>
+            <RSMap 
+              geofeatures={this.geofeatures}
+              data={this.filtereddata}
+            />
+            <LondonMap
+              geofeatures={this.geofeatures}
+              data={this.filtereddata}
+            />
+          </div>
+          <div className='demographics'>
+            here are my demographics
+          </div>
+          <div className='timeseries'>
+            here are the timeseries
+          </div>
+        </div>
       </div>
     );
   }

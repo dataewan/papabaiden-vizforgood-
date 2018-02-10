@@ -2,3 +2,42 @@
 svg{
     background-color: #aaaaaa
 }
+
+.containerrow{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.map{
+    order: 1;
+    width: 400;
+}
+
+.demographics{
+    order: 2;
+    width: 200;
+}
+
+.timeseries{
+    order: 3;
+    width: available;
+}
+
+@media only screen and (max-width: 750px) and (min-width: 501px){
+    .containerrow{
+        padding-left: 5%;
+        width: 95%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .containerrow{
+        flex-direction: column;
+        padding-left: 0;
+        width: 100%
+    }
+}
