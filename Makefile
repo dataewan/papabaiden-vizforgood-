@@ -14,7 +14,7 @@ geo:
 	geo2topo -n \
 		tracts=data/geo/uk-welwyn.ndjson \
 		> data/geo/uk-topo.json
-	toposimplify -p 0.0005 -f \
+	toposimplify -p 0.0000001 -f \
 		< data/geo/uk-topo.json \
 		> data/geo/uk-simple.json
 

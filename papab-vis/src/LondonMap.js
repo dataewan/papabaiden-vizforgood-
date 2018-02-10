@@ -2,18 +2,18 @@ import React from 'react';
 
 import { geoPath, geoAlbers } from 'd3-geo'
 
-class RSMap extends React.Component {
+class LondonMap extends React.Component {
   render() {
     const { geofeatures, data } = this.props
 
     const codes = data.map(d => d.code)
     const width=400
-    const height=450
+    const height=200
     const proj = geoAlbers()
-      .center([2.5, 53.0])
+      .center([4.3, 51.5])
       .rotate([4.4, 0])
       .parallels([50, 60])
-      .scale(4000)
+      .scale(30000)
       .translate([width / 2, height / 2])
 
     const pathGenerator = geoPath().projection(proj);
@@ -29,7 +29,7 @@ class RSMap extends React.Component {
           key={`path${i}`}
           d={pathGenerator(d)}
           fill={'salmon'}
-          strokeWidth='0.1px'
+          strokeWidth='0.5px'
           stroke='white'
           onClick={x => console.log(d.properties.lau118nm)}
         />
@@ -39,7 +39,7 @@ class RSMap extends React.Component {
 
     return (
       <div>
-        <h3>England</h3>
+        <h3>London</h3>
         <svg
           width={width}
           height={height}
@@ -51,4 +51,4 @@ class RSMap extends React.Component {
   }
 }
 
-export default RSMap;
+export default LondonMap;
