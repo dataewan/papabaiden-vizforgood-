@@ -9,6 +9,7 @@ import LondonMap from './LondonMap';
 import Demographic from './Demographic';
 import DemographicTable from './DemographicTable'
 import RegionFilter from './RegionFilter';
+import Timeseries from './Timeseries';
 
 import mapdata from './uk.json';
 import data from './data.json';
@@ -48,6 +49,9 @@ class App extends Component {
     return (
       <div className="App">
         <div className='containerrow'>
+          <div className='story'>
+            here is the story
+          </div>
           <div className='map'>
             <RegionFilter
               selected={this.state.selectedRegion}
@@ -111,7 +115,10 @@ class App extends Component {
             />
           </div>
           <div className='timeseries'>
-            here are the timeseries
+            <Timeseries
+              data={this.filtereddata} 
+              selected={this.state.selectedRegion} 
+            />
           </div>
         </div>
       </div>

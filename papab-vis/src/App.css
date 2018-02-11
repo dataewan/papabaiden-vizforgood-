@@ -8,18 +8,23 @@
     margin-right:auto;
 }
 
-.map{
+.story{
     order: 1;
+    width: 200px;
+}
+
+.map{
+    order: 2;
     width: 400px;
 }
 
 .demographics{
-    order: 2;
+    order: 3;
     width: 200px;
 }
 
 .timeseries{
-    order: 3;
+    order: 4;
     width: 200px;
 }
 
