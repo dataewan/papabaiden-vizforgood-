@@ -7,8 +7,8 @@ const functions = {
 
 const DemographicConfig = {
   'RSRate': {
-    pretty: 'Rough sleeping rate',
-    formatter: (d) => d.toFixed(6) + ' per 1 000 households',
+    pretty: 'Rough sleepers per 1000 households',
+    formatter: (d) => d.toFixed(6),
     aggfunc: functions.MEAN,
     maxval: 0.0012
   },

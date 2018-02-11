@@ -7,6 +7,7 @@ import { createScale } from './plotoperations'
 import RSMap from './RSMap';
 import LondonMap from './LondonMap';
 import Demographic from './Demographic';
+import DemographicTable from './DemographicTable'
 import RegionFilter from './RegionFilter';
 
 import mapdata from './uk.json';
@@ -100,6 +101,13 @@ class App extends Component {
               data={this.filtereddata} 
               change={e => this.changevariable(e)}
               selectedVariable={this.state.selectedVariable}
+            />
+            <DemographicTable
+              selected={this.state.selectedRegion} 
+              data={this.filtereddata} 
+              selectedVariable={this.state.selectedVariable}
+              codelookup={this.codelookup}
+              change={e => this.changeregion_frommap(e)}
             />
           </div>
           <div className='timeseries'>

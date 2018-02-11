@@ -1,8 +1,4 @@
 
-svg{
-    background-color: #aaaaaa
-}
-
 .containerrow{
     display: flex;
     flex-wrap: wrap;
@@ -35,6 +31,9 @@ svg{
 }
 
 
+/*
+ * Styling the demographic displays
+ */
 
 svg.demographic_svg{
     padding: 0px;
@@ -60,6 +59,13 @@ div.selectedDemographic{
 div.unselectedDemographic{
     margin: 1px;
     border: 1px solid grey;
+}
+
+div.demographictable{
+    display: block;
+    width: 200px;
+    height: 350px;
+    font-size: 8px;
 }
 
 @media only screen and (max-width: 750px) and (min-width: 601px){
