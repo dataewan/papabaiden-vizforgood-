@@ -1,3 +1,13 @@
 div.active{
     background-color: #f9e039;
 }
+
+button{
+    padding-top: 2px;
+    border: 0px;
+    margin-left: 9px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color:#555;
+    color: white;
+}
