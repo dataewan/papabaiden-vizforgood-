@@ -1,6 +1,9 @@
 import React from 'react'
 import * as _ from 'lodash';
+import * as d3 from 'd3';
 import DemographicConfig from './DemographicConfig'
+
+window.d3 = d3
 
 const aggregate = (values, aggfunc) => {
   if (aggfunc === 'SUM'){
@@ -9,6 +12,24 @@ const aggregate = (values, aggfunc) => {
   if (aggfunc === 'MEAN'){
     return _.sum(values) / values.length
   }
+  if (aggfunc === 'MAX'){
+    return _.max(values)
+  }
+}
+
+const plotrects = (value, nationalvalue, maxvalue) => {
+  const scale = d3.scaleLinear()
+    .domain([0, maxvalue])
+    .range([0, 200])
+
+  return <g>
+    <g transform={'translate(0, 10)'}>
+      <rect
+        width={scale(value)}
+        height={10}
+      />
+    </g>
+  </g>
 }
 
 
@@ -16,7 +37,7 @@ class Demographic extends React.Component {
   render() {
     const { data, selected, variable } = this.props;
     const conf = DemographicConfig[variable];
-    const { pretty, formatter, aggfunc } = conf;
+    const { pretty, formatter, aggfunc, maxval } = conf;
 
     const values = _(data)
       .filter(d => selected === null || d.code === selected)
@@ -28,11 +49,18 @@ class Demographic extends React.Component {
       .map(d => d.data.demographics[variable])
       .value()
     const nationalvalue = aggregate(nationalvalues, 'MEAN')
+    const nationalvalue_max = maxval ? maxval : aggregate(nationalvalues, 'MAX')
 
     return (
-      <div>
-        <h5>{pretty}</h5>
-        <h6>{formatter(value)}</h6>
+      <div onClick={d => console.log(variable)}>
+        <div className='demographic_measurename'>{pretty}</div>
+        <svg className='demographic_svg'
+          height={40}
+          width={200}
+        >
+          {selected ? plotrects(value, nationalvalue, nationalvalue_max) : null}
+        </svg>
+        <div className='demographic_measurement'>{formatter(value)}</div>
       </div>
     );
   }
