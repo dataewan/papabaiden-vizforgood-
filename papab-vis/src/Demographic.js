@@ -28,7 +28,7 @@ const plotrects = (value, nationalvalue, maxvalue) => {
     y1={40}
     y2={0}
     strokeWidth={15}
-    stroke={'white'}
+    stroke={'#f9e039'}
     strokeDasharray={'1,1'}
   /> : null
 

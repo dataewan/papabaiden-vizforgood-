@@ -23,7 +23,7 @@ class RSMap extends React.Component {
       const indata = codes.includes(code)
       const datapoint = data.filter(x => x.code === code)[0]
       const value = datapoint.data.demographics[selectedVariable]
-      const fill = code === selected ? 'red' : scale(value)
+      const fill = code === selected ? '#f9e039' : scale(value)
       return(
         <path
           className='region'
@@ -31,7 +31,7 @@ class RSMap extends React.Component {
           d={pathGenerator(d)}
           fill={fill}
           strokeWidth='0.1px'
-          stroke='white'
+          stroke='black'
           onClick={x => this.props.changeregion(d.properties.lau118cd)}
         />
       )

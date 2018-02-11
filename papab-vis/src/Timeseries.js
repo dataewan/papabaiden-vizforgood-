@@ -98,7 +98,7 @@ class Timeseries extends React.Component {
     const width = 200;
     const height = 200;
     const padding = {
-      left: 20,
+      left: 40,
       right: 10,
       top: 50,
       bottom: 20

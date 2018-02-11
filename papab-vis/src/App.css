@@ -42,7 +42,6 @@
 
 svg.demographic_svg{
     padding: 0px;
-    background-color: white;
 }
 
 div.demographic_measurename{
@@ -57,13 +56,10 @@ div.demographic_measurement{
 }
 
 div.selectedDemographic{
-    margin: 1px;
-    border: 1px solid red;
+    background-color: #f9e039;
 }
 
 div.unselectedDemographic{
-    margin: 1px;
-    border: 1px solid grey;
 }
 
 div.demographictable{
