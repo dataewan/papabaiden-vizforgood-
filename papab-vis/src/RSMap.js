@@ -36,7 +36,6 @@ class RSMap extends React.Component {
 
     return (
       <div>
-        <h3>{this.props.selected ? this.props.codelookup[this.props.selected] : 'England'}</h3>
         <svg
           width={width}
           height={height}

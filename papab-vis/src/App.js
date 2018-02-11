@@ -6,6 +6,7 @@ import { filterdata, makecodelookup } from './dataoperations'
 import RSMap from './RSMap';
 import LondonMap from './LondonMap';
 import Demographic from './Demographic';
+import RegionFilter from './RegionFilter';
 
 import mapdata from './uk.json';
 import data from './data.json';
@@ -38,6 +39,11 @@ class App extends Component {
       <div className="App">
         <div className='containerrow'>
           <div className='map'>
+            <RegionFilter
+              selected={this.state.selectedRegion}
+              clearregion={e => this.changeregion_frommap(null)}
+              codelookup={this.codelookup}
+            />
             <RSMap 
               geofeatures={this.geofeatures}
               data={this.filtereddata}
