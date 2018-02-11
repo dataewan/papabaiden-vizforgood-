@@ -14,10 +14,23 @@ const filterdata = (mapdata, data) => {
       geometries: filteredgeometries
     }
   );
+  const transformeddata = transform(data);
+
   return {
     filteredmap: mapdata,
-    filtereddata: data
+    filtereddata: transformeddata
   }
+}
+
+const transform = (data) => {
+  /* perform calculations on top of the data to make new fields */
+  return _.map(
+    data,
+    d => {
+      d.data.demographics.RSRate = d.data.demographics.Totalroughsleepercountestimate / d.data.demographics.numhouseholds;
+      return d
+    }
+  )
 }
 
 

@@ -5,6 +5,7 @@ import './App.css';
 import { filterdata, makecodelookup } from './dataoperations'
 import RSMap from './RSMap';
 import LondonMap from './LondonMap';
+import Demographic from './Demographic';
 
 import mapdata from './uk.json';
 import data from './data.json';
@@ -53,7 +54,10 @@ class App extends Component {
             />
           </div>
           <div className='demographics'>
-            here are my demographics
+            <Demographic variable={'RSRate'} selected={this.state.selectedRegion} data={this.filtereddata}/>
+            <Demographic variable={'Totalroughsleepercountestimate'} selected={this.state.selectedRegion} data={this.filtereddata}/>
+            <Demographic variable={'Under25yearsold'} selected={this.state.selectedRegion} data={this.filtereddata}/>
+            <Demographic variable={'Female'} selected={this.state.selectedRegion} data={this.filtereddata}/>
           </div>
           <div className='timeseries'>
             here are the timeseries

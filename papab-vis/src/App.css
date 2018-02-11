@@ -14,12 +14,12 @@ svg{
 
 .map{
     order: 1;
-    width: 400;
+    width: 400px;
 }
 
 .demographics{
     order: 2;
-    width: 200;
+    width: 200px;
 }
 
 .timeseries{
@@ -27,7 +27,7 @@ svg{
     width: available;
 }
 
-@media only screen and (max-width: 750px) and (min-width: 501px){
+@media only screen and (max-width: 750px) and (min-width: 601px){
     .containerrow{
         padding-left: 5%;
         width: 95%;
