@@ -22,13 +22,32 @@ const plotrects = (value, nationalvalue, maxvalue) => {
     .domain([0, maxvalue])
     .range([0, 200])
 
+  const linebreak = value > maxvalue ? <line
+    x1={150}
+    x2={150}
+    y1={40}
+    y2={0}
+    strokeWidth={15}
+    stroke={'white'}
+    strokeDasharray={'1,1'}
+  /> : null
+
   return <g>
+    <line
+      x1={scale(nationalvalue)}
+      x2={scale(nationalvalue)}
+      y1={40}
+      y2={0}
+      width={5}
+      stroke={'black'}
+    />
     <g transform={'translate(0, 10)'}>
       <rect
         width={scale(value)}
-        height={10}
+        height={20}
       />
     </g>
+    {linebreak}
   </g>
 }
 
@@ -48,6 +67,7 @@ class Demographic extends React.Component {
     const nationalvalues = _(data)
       .map(d => d.data.demographics[variable])
       .value()
+
     const nationalvalue = aggregate(nationalvalues, 'MEAN')
     const nationalvalue_max = maxval ? maxval : aggregate(nationalvalues, 'MAX')
 
