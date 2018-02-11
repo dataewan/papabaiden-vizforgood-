@@ -10,6 +10,7 @@ import Demographic from './Demographic';
 import DemographicTable from './DemographicTable'
 import RegionFilter from './RegionFilter';
 import Timeseries from './Timeseries';
+import VacantTimeseries from './VacantTimeseries';
 
 import mapdata from './uk.json';
 import data from './data.json';
@@ -116,6 +117,10 @@ class App extends Component {
           </div>
           <div className='timeseries'>
             <Timeseries
+              data={this.filtereddata} 
+              selected={this.state.selectedRegion} 
+            />
+            <VacantTimeseries
               data={this.filtereddata} 
               selected={this.state.selectedRegion} 
             />
