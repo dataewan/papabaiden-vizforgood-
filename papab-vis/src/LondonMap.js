@@ -4,7 +4,7 @@ import { geoPath, geoAlbers } from 'd3-geo'
 
 class LondonMap extends React.Component {
   render() {
-    const { geofeatures, data } = this.props
+    const { geofeatures, selected, data, selectedVariable, scale} = this.props
 
     const codes = data.map(d => d.code)
     const width=400
@@ -18,17 +18,18 @@ class LondonMap extends React.Component {
 
     const pathGenerator = geoPath().projection(proj);
 
-    window.geofeatures = geofeatures
-    window.data = data
-
     const regions = geofeatures.map((d, i) => {
-      const indata = codes.includes(d.properties.lau118cd)
+      const code = d.properties.lau118cd
+      const indata = codes.includes(code)
+      const datapoint = data.filter(x => x.code === code)[0]
+      const value = datapoint.data.demographics[selectedVariable]
+      const fill = code === selected ? 'red' : scale(value)
       return(
         <path
           className='region'
           key={`path${i}`}
           d={pathGenerator(d)}
-          fill={d.properties.lau118cd === this.props.selected ? 'red' : 'salmon'}
+          fill={fill}
           strokeWidth='0.5px'
           stroke='white'
           onClick={x => this.props.changeregion(d.properties.lau118cd)}

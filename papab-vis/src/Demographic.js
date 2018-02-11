@@ -54,7 +54,7 @@ const plotrects = (value, nationalvalue, maxvalue) => {
 
 class Demographic extends React.Component {
   render() {
-    const { data, selected, variable } = this.props;
+    const { data, selected, variable, change, selectedVariable} = this.props;
     const conf = DemographicConfig[variable];
     const { pretty, formatter, aggfunc, maxval } = conf;
 
@@ -72,7 +72,10 @@ class Demographic extends React.Component {
     const nationalvalue_max = maxval ? maxval : aggregate(nationalvalues, 'MAX')
 
     return (
-      <div onClick={d => console.log(variable)}>
+      <div 
+        onClick={d => change(variable)}
+        className={variable === selectedVariable ? 'selectedDemographic' : 'unselectedDemographic'}
+      >
         <div className='demographic_measurename'>{pretty}</div>
         <svg className='demographic_svg'
           height={40}

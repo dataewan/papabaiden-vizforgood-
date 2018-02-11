@@ -3,6 +3,7 @@ import * as topojson from 'topojson-client';
 import './App.css';
 
 import { filterdata, makecodelookup } from './dataoperations'
+import { createScale } from './plotoperations'
 import RSMap from './RSMap';
 import LondonMap from './LondonMap';
 import Demographic from './Demographic';
@@ -16,7 +17,8 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      selectedRegion: null
+      selectedRegion: null,
+      selectedVariable: 'RSRate',
     }
 
     const { filteredmap, filtereddata } = filterdata(mapdata, data)
@@ -34,7 +36,14 @@ class App extends Component {
     })
   }
 
+  changevariable(e){
+    this.setState({
+      selectedVariable: e
+    })
+  }
+
   render() {
+    const scale = createScale(this.filtereddata, this.state.selectedVariable)
     return (
       <div className="App">
         <div className='containerrow'>
@@ -50,6 +59,8 @@ class App extends Component {
               selected={this.state.selectedRegion}
               changeregion={e => this.changeregion_frommap(e)}
               codelookup={this.codelookup}
+              selectedVariable={this.state.selectedVariable}
+              scale={scale}
             />
             <LondonMap
               geofeatures={this.geofeatures}
@@ -57,13 +68,39 @@ class App extends Component {
               selected={this.state.selectedRegion}
               changeregion={e => this.changeregion_frommap(e)}
               codelookup={this.codelookup}
+              selectedVariable={this.state.selectedVariable}
+              scale={scale}
             />
           </div>
           <div className='demographics'>
-            <Demographic variable={'RSRate'} selected={this.state.selectedRegion} data={this.filtereddata}/>
-            <Demographic variable={'Totalroughsleepercountestimate'} selected={this.state.selectedRegion} data={this.filtereddata}/>
-            <Demographic variable={'Under25yearsold'} selected={this.state.selectedRegion} data={this.filtereddata}/>
-            <Demographic variable={'Female'} selected={this.state.selectedRegion} data={this.filtereddata}/>
+            <Demographic 
+              variable={'RSRate'} 
+              selected={this.state.selectedRegion} 
+              data={this.filtereddata} 
+              change={e => this.changevariable(e)}
+              selectedVariable={this.state.selectedVariable}
+            />
+            <Demographic 
+              variable={'Totalroughsleepercountestimate'} 
+              selected={this.state.selectedRegion} 
+              data={this.filtereddata} 
+              change={e => this.changevariable(e)}
+              selectedVariable={this.state.selectedVariable}
+            />
+            <Demographic 
+              variable={'Under25yearsold'} 
+              selected={this.state.selectedRegion} 
+              data={this.filtereddata} 
+              change={e => this.changevariable(e)}
+              selectedVariable={this.state.selectedVariable}
+            />
+            <Demographic 
+              variable={'Female'} 
+              selected={this.state.selectedRegion} 
+              data={this.filtereddata} 
+              change={e => this.changevariable(e)}
+              selectedVariable={this.state.selectedVariable}
+            />
           </div>
           <div className='timeseries'>
             here are the timeseries
