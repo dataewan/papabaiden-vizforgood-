@@ -4,6 +4,7 @@ import './App.css';
 
 import { filterdata, makecodelookup } from './dataoperations'
 import { createScale } from './plotoperations'
+import Story from './Story';
 import RSMap from './RSMap';
 import LondonMap from './LondonMap';
 import Demographic from './Demographic';
@@ -21,7 +22,9 @@ class App extends Component {
     super(props)
     this.state = {
       selectedRegion: null,
-      selectedVariable: 'RSRate',
+      selectedVariable: 'Totalroughsleepercountestimate',
+      highlightTS: false,
+      highlightRSTS: false,
     }
 
     const { filteredmap, filtereddata } = filterdata(mapdata, data)
@@ -45,13 +48,32 @@ class App extends Component {
     })
   }
 
+  highlightTS(value){
+    console.log(value)
+    this.setState({
+      highlightTS: value
+    })
+  }
+
+  highlightRSTS(value){
+    this.setState({
+      highlightRSTS: value
+    })
+  }
+
   render() {
     const scale = createScale(this.filtereddata, this.state.selectedVariable)
     return (
       <div className="App">
         <div className='containerrow'>
           <div className='story'>
-            here is the story
+            <Story
+              changeregion={e => this.changeregion_frommap(e)}
+              change={e => this.changevariable(e)}
+              highlightTS={e => this.highlightTS(e)}
+              highlightRSTS={e => this.highlightRSTS(e)}
+            />
+
           </div>
           <div className='map'>
             <RegionFilter
@@ -119,10 +141,12 @@ class App extends Component {
             <Timeseries
               data={this.filtereddata} 
               selected={this.state.selectedRegion} 
+              highlight={this.state.highlightTS}
             />
             <VacantTimeseries
               data={this.filtereddata} 
               selected={this.state.selectedRegion} 
+              highlight={this.state.highlightRSTS}
             />
           </div>
         </div>

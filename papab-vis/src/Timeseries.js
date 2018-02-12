@@ -94,7 +94,7 @@ class Timeseries extends React.Component {
 
 
   render() {
-    const { data, selected } = this.props;
+    const { data, selected, highlight } = this.props;
     const width = 200;
     const height = 200;
     const padding = {
@@ -135,7 +135,7 @@ class Timeseries extends React.Component {
       .range([height - padding.bottom - padding.top, 0])
 
     return (
-      <div>
+      <div className={highlight ? 'highlightedplot' : ''}>
         <svg
           width={200}
           height={200}
