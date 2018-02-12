@@ -10,7 +10,7 @@ const DemographicConfig = {
     pretty: 'Rough sleepers per 1000 households',
     formatter: (d) => d.toFixed(6),
     aggfunc: functions.MEAN,
-    maxval: 0.0012
+    maxval: 1.2
   },
   'Totalroughsleepercountestimate': {
     pretty: 'Total rough sleepers',

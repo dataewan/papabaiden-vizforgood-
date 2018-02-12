@@ -27,7 +27,7 @@ const transform = (data) => {
   return _.map(
     data,
     d => {
-      d.data.demographics.RSRate = d.data.demographics.Totalroughsleepercountestimate / d.data.demographics.numhouseholds;
+      d.data.demographics.RSRate = d.data.demographics.Totalroughsleepercountestimate / d.data.demographics.numhouseholds * 1000;
       return d
     }
   )
